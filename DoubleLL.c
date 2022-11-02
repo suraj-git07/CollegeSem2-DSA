@@ -25,7 +25,7 @@ void traversing(struct Node *head)
         p = p->prev;
     }
 }
-//   INSERTION IN LINKED LIST
+//   INSERTION IN doubly LINKED LIST
 
 // Function for Inserting in the begining
 struct Node *Insert_At_First(struct Node *head, int data)
@@ -51,9 +51,9 @@ struct Node *Insert_At_Index(struct Node *head, int data, int index)
     }
     ptr->data = data;
     ptr->next = p->next;
+    p->next->prev = ptr;
     ptr->prev = p;
     p->next = ptr;
-
     return head;
 }
 
@@ -75,17 +75,18 @@ struct Node *Insert_At_End(struct Node *head, int data)
 
 //   DELITION IN LINKED LIST
 
-// Function to delete the First Node, In the Linked list
+// Function to delete the First Node, In the doubly Linked list
 struct Node *Delete_At_First(struct Node *head)
 {
     struct Node *ptr = head;
     head = head->next;
+    head->prev = NULL;
     free(ptr); // free the space of first node
     ptr = NULL;
     return head;
 }
 
-// Function to delete any Node with given index, In the Linked list
+// Function to delete any Node with given index, In the  doubly Linked list
 struct Node *Delete_node_between(struct Node *head, int index)
 {
     struct Node *p = head;
@@ -107,12 +108,13 @@ struct Node *Delete_node_between(struct Node *head, int index)
     }
 
     q->next = p->next;
+    p->next->prev = q;
     free(p);
     p = NULL;
     return head;
 }
 
-// Function to delete last Node, In the Linked list
+// Function to delete last Node, In the Doubly Linked list
 struct Node *Delete_last_node(struct Node *head)
 {
     struct Node *p = head;
@@ -160,6 +162,6 @@ void main(int argc, char const *argv[])
     fourth->prev = third;
     fourth->next = NULL;
 
-    head = Insert_At_Index(head, 5, 1);
+    head = Delete_node_between(head, 2);
     traversing(head);
 }
