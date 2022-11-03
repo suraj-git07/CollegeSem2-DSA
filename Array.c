@@ -6,6 +6,8 @@ struct Array
     int size;
     int length;
 };
+
+// Display Function
 void Display(struct Array arr)
 {
     int i;
@@ -13,11 +15,7 @@ void Display(struct Array arr)
     for (i = 0; i < arr.length; i++)
         printf("%d ", arr.A[i]);
 }
-void Append(struct Array *arr, int x)
-{
-    if (arr->length < arr->size)
-        arr->A[arr->length++] = x;
-}
+
 void Insert(struct Array *arr, int index, int x)
 {
     int i;
