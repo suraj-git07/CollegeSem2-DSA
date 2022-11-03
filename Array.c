@@ -183,25 +183,9 @@ insertDeleteCheckpoint:
     }
 }
 
-int traversing()
-{
-    int index;
-insertTraverseCheckpoint:
-    printf("Enter the index of the element\n");
-    scanf("%d", &index);
-    if (index >= 0 && index <= a1.counter)
-    {
-        printf("%d", a1.array1[index]);
-    }
-    else
-    {
-        printf("Index out of range");
-        goto insertTraverseCheckpoint;
-    }
-    printArr();
-}
 
-int traversing2(){
+
+int traversingArr(){
     for (int i = 0; i < a1.counter; i++)
     {
         printf("%d\n",i);
@@ -290,7 +274,7 @@ showMenu:
             deletion();
             break;
         case 3:
-            traversing2();
+            traversingArr();
             break;
         case 4:
             searching();
