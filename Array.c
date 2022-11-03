@@ -74,10 +74,11 @@ void selectionSort(struct Array *arr)
             if (arr->A[j] < arr->A[minIndex])
             {
                    minIndex = j;
+                  
             }
         }
 
-        swap(arr->A[i], arr->A[minIndex]);
+        swap(&arr->A[i], &arr->A[minIndex]);
     }
 }
 
