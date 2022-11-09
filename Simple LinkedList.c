@@ -141,7 +141,7 @@ void main(int argc, char const *argv[])
     while(1){
         int menu1 = 0;
         printf("Enter you Choice :\n");
-        printf("Enter 1:insertion, 2:Deletion, 3:traverse\n");
+        printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
         scanf("%d",&menu1);
         int menu2 = 0;
         switch(menu1) {
@@ -191,9 +191,15 @@ void main(int argc, char const *argv[])
                 
             }
             break;
+        case 3:;
+            linked_list_traverse(head);
+            break;
         default:
-        linked_list_traverse(head);
-}
-        
+           goto L;
+        }
+       
+       
     }
+    L:
+     printf("Code Ended Successfully");
 }

@@ -162,6 +162,69 @@ void main(int argc, char const *argv[])
     fourth->prev = third;
     fourth->next = NULL;
 
-    head = Delete_node_between(head, 2);
-    traversing(head);
+    while (1)
+    {
+        int menu1 = 0;
+        printf("Enter you Choice :\n");
+        printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
+        scanf("%d", &menu1);
+        int menu2 = 0;
+        switch (menu1)
+        {
+        case 1:;
+
+            printf("1: At_Start 2:At_Index 3: At_end\n");
+            scanf("%d", &menu2);
+            int data = 0;
+            int index = 0;
+            switch (menu2)
+            {
+            case 1:;
+
+                printf("Enter data :");
+                scanf("%d", &data);
+                head = Insert_At_First(head, data);
+                break;
+            case 2:;
+                printf("Enter data :");
+                scanf("%d", &data);
+                printf("\nEnter =index :");
+                scanf("%d", &index);
+                head = Insert_At_Index(head, data, index);
+                break;
+            default:;
+
+                printf("Enter data :");
+                scanf("%d", &data);
+                head = Insert_At_End(head, data);
+            }
+            break;
+        case 2:;
+
+            printf("1: From_Start 2:From_Index 3: From_end\n");
+            scanf("%d", &menu2);
+            switch (menu2)
+            {
+            case 1:;
+                head = Delete_At_First(head);
+                break;
+            case 2:;
+                int index = 0;
+                printf("\nEnter =index :");
+                scanf("%d", &index);
+                head = Delete_node_between(head, index);
+                break;
+            default:
+                head = Delete_last_node(head);
+            }
+            break;
+        case 3:;
+            traversing(head);
+            break;
+        default:
+            goto L;
+        }
+    }
+L:
+    printf("Code Ended Successfully");
 }
