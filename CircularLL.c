@@ -119,6 +119,59 @@ void main(int argc, char const *argv[])
     fourth->data = 45;
     fourth->next = head; // Last Node Pointing To The First
 
-    head = Insert_At_Index(head, 4, 2);
-    linked_list_traverse(head);
+    while(1){
+        int menu1 = 0;
+        printf("Enter you Choice :\n");
+        printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
+        scanf("%d",&menu1);
+        int menu2 = 0;
+        switch(menu1) {
+        case 1:;
+            
+            printf("1: At_Start/End 2:At_Index \n");
+            scanf("%d",&menu2);
+            int data=0;
+            int index =0;
+            switch(menu2) {
+            case 1:;
+                
+                printf("Enter data :");
+                scanf("%d",&data);
+                head = Insert_At_First_End(head,  data);
+                break;
+            default:;
+                printf("Enter data :");
+                scanf("%d",&data);
+                printf("\nEnter =index :");
+                scanf("%d",&index);
+                head = Insert_At_Index(head,  data,index);
+               
+            }
+            break;
+        case 2:;
+           
+            printf("1: From_Start/End 2:From_Index \n");
+            scanf("%d",&menu2);
+            switch(menu2) {
+            case 1:;
+                head = Delete_At_First_End(head );
+                break;
+            default:;
+                int index = 0;
+                printf("\nEnter =index :");
+                scanf("%d",&index);
+                head = Delete_At_index(head,index);
+            }
+            break;
+        case 3:;
+            linked_list_traverse(head);
+            break;
+        default:
+           goto L;
+        }
+       
+       
+    }
+    L:
+     printf("Code Ended Successfully");
 }
