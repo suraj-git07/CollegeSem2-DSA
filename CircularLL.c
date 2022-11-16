@@ -5,7 +5,7 @@ struct Node
 {
     int data;
     struct Node *next;
-    struct Node *prev;
+    // struct Node *prev;
 };
 
 void traversing(struct Node *head)
@@ -17,15 +17,14 @@ void traversing(struct Node *head)
         ptr = ptr->next;
     } while (ptr != head); // data of last node
 
-    printf("\n NOW BACK \n");
-    ptr=ptr->prev;
-     do
-    {
-        
-        printf("Element : %d \n", ptr->data);
-        ptr = ptr->prev;
-    } while (ptr != head->prev);
-   
+    // printf("\n NOW BACK \n");
+    // ptr=ptr->prev;
+    //  do
+    // {
+
+    //     printf("Element : %d \n", ptr->data);
+    //     ptr = ptr->prev;
+    // } while (ptr != head->prev);
 }
 //   INSERTION IN doubly Circular LINKED LIST
 
@@ -33,11 +32,16 @@ void traversing(struct Node *head)
 struct Node *Insert_At_First_End(struct Node *head, int data)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
-    
+    struct Node *last = head;
+    do
+    {
+        last = last->next;
+    } while (last->next != head);
+
     ptr->next = head;
-    ptr->prev = head->prev;
-    head->prev->next = ptr;
-    head->prev = ptr;
+    // ptr->prev = head->prev;
+    last->next = ptr;
+    // head->prev = ptr;
     ptr->data = data;
     return ptr;
 }
@@ -55,12 +59,11 @@ struct Node *Insert_At_Index(struct Node *head, int data, int index)
     }
     ptr->data = data;
     ptr->next = p->next;
-    p->next->prev = ptr;
-    ptr->prev = p;
+    // p->next->prev = ptr;
+    // ptr->prev = p;
     p->next = ptr;
     return head;
 }
-
 
 //   DELITION IN LINKED LIST
 
@@ -68,10 +71,15 @@ struct Node *Insert_At_Index(struct Node *head, int data, int index)
 struct Node *Delete_At_First_End(struct Node *head)
 {
     struct Node *ptr = head;
-    struct Node *last = head->prev;
+    struct Node *last = head;
+    do
+    {
+        last = last->next;
+    } while (last->next != head);
+
     head = head->next;
     last->next = head;
-    head->prev = last;
+    // head->prev = last;
     free(ptr); // free the space of first node
     ptr = NULL;
     return head;
@@ -99,13 +107,11 @@ struct Node *Delete_node_between(struct Node *head, int index)
     }
 
     q->next = p->next;
-    p->next->prev = q;
+    // p->next->prev = q;
     free(p);
     p = NULL;
     return head;
 }
-
-
 
 void main(int argc, char const *argv[])
 {
@@ -122,80 +128,75 @@ void main(int argc, char const *argv[])
     last = fourth;
 
     head->data = 7;
-    head->prev = last;
+    // head->prev = last;
     head->next = second;
 
     second->data = 4;
-    second->prev = head;
+    // second->prev = head;
     second->next = third;
 
     third->data = 46;
-    third->prev = second;
+    // third->prev = second;
     third->next = fourth;
 
     fourth->data = 12;
-    fourth->prev = third;
+    // fourth->prev = third;
     fourth->next = head;
-    
-    while(1){
+
+    while (1)
+    {
         int menu1 = 0;
         printf("Enter you Choice :\n");
         printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
-        scanf("%d",&menu1);
+        scanf("%d", &menu1);
         int menu2 = 0;
-        switch(menu1) {
+        switch (menu1)
+        {
         case 1:;
-            
+
             printf("1: At_Start/End 2:At_Index \n");
-            scanf("%d",&menu2);
-            int data=0;
-            int index =0;
-            switch(menu2) {
+            scanf("%d", &menu2);
+            int data = 0;
+            int index = 0;
+            switch (menu2)
+            {
             case 1:;
-                
+
                 printf("Enter data :");
-                scanf("%d",&data);
-                head = Insert_At_First_End(head,  data);
+                scanf("%d", &data);
+                head = Insert_At_First_End(head, data);
                 break;
             default:;
                 printf("Enter data :");
-                scanf("%d",&data);
+                scanf("%d", &data);
                 printf("\nEnter =index :");
-                scanf("%d",&index);
-                head = Insert_At_Index(head,  data,index);
-               
+                scanf("%d", &index);
+                head = Insert_At_Index(head, data, index);
             }
             break;
         case 2:;
-           
+
             printf("1: From_Start/End 2:From_Index \n");
-            scanf("%d",&menu2);
-            switch(menu2) {
+            scanf("%d", &menu2);
+            switch (menu2)
+            {
             case 1:;
-                head = Delete_At_First_End(head );
+                head = Delete_At_First_End(head);
                 break;
             default:;
                 int index = 0;
                 printf("\nEnter =index :");
-                scanf("%d",&index);
-                head =Delete_node_between(head,index);
+                scanf("%d", &index);
+                head = Delete_node_between(head, index);
             }
             break;
         case 3:;
             traversing(head);
             break;
         default:
-           goto L;
+            goto L;
         }
-       
-       
     }
-    L:
-     printf("Code Ended Successfully");
-    
-    
-    
-    
-
- 
+L:
+    printf("Code Ended Successfully");
 }
