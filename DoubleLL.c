@@ -11,6 +11,11 @@ struct Node
 void traversing(struct Node *head)
 {
     struct Node *p = head;
+    if (head == NULL)
+    {
+        goto L;
+    }
+
     while (p->next != NULL)
     {
         printf("Element : %d \n", p->data);
@@ -24,16 +29,45 @@ void traversing(struct Node *head)
         printf("Element : %d \n", p->data);
         p = p->prev;
     }
+L:
+    printf("Traversing completed\n");
 }
+
+int listlen(struct Node *head)
+{
+    if (head == NULL)
+    {
+        return 0;
+    }
+
+    int result = 1;
+    do
+    {
+        result++;
+        head = head->next;
+
+    } while (head->next != NULL);
+    return result;
+}
+
 //   INSERTION IN doubly LINKED LIST
 
 // Function for Inserting in the begining
 struct Node *Insert_At_First(struct Node *head, int data)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
-    ptr->next = head;
-    ptr->prev = NULL;
-    head->prev = ptr;
+    if (head == NULL)
+    {
+        ptr->next = NULL;
+        ptr->prev = NULL;
+    }
+    else
+    {
+        ptr->next = head;
+        ptr->prev = NULL;
+        head->prev = ptr;
+    }
+
     ptr->data = data;
     return ptr;
 }
@@ -43,6 +77,13 @@ struct Node *Insert_At_Index(struct Node *head, int data, int index)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
     struct Node *p = head;
+    // printf("listlen %d\n",listlen(head));
+    if (index > listlen(head))
+    {
+        printf("invalid index\n");
+        return head;
+    }
+
     int i = 0;
     while (i != index - 1)
     {
@@ -62,6 +103,12 @@ struct Node *Insert_At_End(struct Node *head, int data)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
     ptr->data = data;
+    if (head == NULL)
+    {
+        ptr->next = NULL;
+        ptr->prev = NULL;
+        return ptr;
+    }
     struct Node *p = head;
     while (p->next != NULL)
     {
@@ -78,6 +125,16 @@ struct Node *Insert_At_End(struct Node *head, int data)
 // Function to delete the First Node, In the doubly Linked list
 struct Node *Delete_At_First(struct Node *head)
 {
+    if (head == NULL)
+    {
+        printf("No ele in list\n");
+        return head;
+    }
+    if (head->next == NULL)
+    {
+        free(head);
+        return NULL;
+    }
     struct Node *ptr = head;
     head = head->next;
     head->prev = NULL;
@@ -91,6 +148,12 @@ struct Node *Delete_node_between(struct Node *head, int index)
 {
     struct Node *p = head;
     struct Node *q = head;
+
+    if (index > listlen(head))
+    {
+        printf("invalid index\n");
+        return head;
+    }
 
     int i = 0, j = 0;
     while (i < index)
@@ -119,6 +182,17 @@ struct Node *Delete_last_node(struct Node *head)
 {
     struct Node *p = head;
     struct Node *q = head;
+    if (head == NULL)
+    {
+        printf("No ele in list\n");
+        return head;
+    }
+    if (head->next == NULL)
+    {
+        free(head);
+        return NULL;
+    }
+
     while (p->next != NULL)
     {
         p = p->next;
@@ -137,30 +211,31 @@ struct Node *Delete_last_node(struct Node *head)
 void main(int argc, char const *argv[])
 {
     struct Node *head;
-    struct Node *second;
-    struct Node *third;
-    struct Node *fourth;
+    // struct Node *second;
+    // struct Node *third;
+    // struct Node *fourth;
 
     head = (struct Node *)malloc(sizeof(struct Node));
-    second = (struct Node *)malloc(sizeof(struct Node));
-    third = (struct Node *)malloc(sizeof(struct Node));
-    fourth = (struct Node *)malloc(sizeof(struct Node));
+    // second = (struct Node *)malloc(sizeof(struct Node));
+    // third = (struct Node *)malloc(sizeof(struct Node));
+    // fourth = (struct Node *)malloc(sizeof(struct Node));
 
-    head->data = 7;
-    head->prev = NULL;
-    head->next = second;
+    head = NULL;
+    // head->data = 7;
+    // head->prev = NULL;
+    // head->next = second;
 
-    second->data = 4;
-    second->prev = head;
-    second->next = third;
+    // second->data = 4;
+    // second->prev = head;
+    // second->next = third;
 
-    third->data = 46;
-    third->prev = second;
-    third->next = fourth;
+    // third->data = 46;
+    // third->prev = second;
+    // third->next = fourth;
 
-    fourth->data = 12;
-    fourth->prev = third;
-    fourth->next = NULL;
+    // fourth->data = 12;
+    // fourth->prev = third;
+    // fourth->next = NULL;
 
     while (1)
     {

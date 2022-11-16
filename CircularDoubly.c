@@ -10,7 +10,8 @@ struct Node
 
 void traversing(struct Node *head)
 {
-    if(head == NULL){
+    if (head == NULL)
+    {
         goto L;
     }
     struct Node *ptr = head;
@@ -24,34 +25,40 @@ void traversing(struct Node *head)
     } while (ptr != head); // data of last node
 
     printf("\n NOW BACK \n");
-    ptr=ptr->prev;
-    if(ptr == NULL){
+    ptr = ptr->prev;
+    if (ptr == NULL)
+    {
         goto L;
     }
-     do
+    do
     {
-        
+
         printf("Element : %d \n", ptr->data);
         ptr = ptr->prev;
-        if(ptr == NULL){
+        if (ptr == NULL)
+        {
             break;
         }
     } while (ptr != head->prev);
-   L:printf("traversing completed\n");
+L:
+    printf("traversing completed\n");
 }
 
-int listlen(struct Node *head){
+int listlen(struct Node *head)
+{
     struct Node *temp = head;
-    if(head == NULL){
-        return 0;    }
+    if (head == NULL)
+    {
+        return 0;
+    }
     int result = 1;
-    do{
+    do
+    {
         result++;
         temp = temp->next;
-    }while(temp->next != head);
+    } while (temp->next != head);
     return result;
 }
-
 
 //   INSERTION IN doubly Circular LINKED LIST
 
@@ -59,20 +66,20 @@ int listlen(struct Node *head){
 struct Node *Insert_At_First_End(struct Node *head, int data)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
-    
-    if(head == NULL){
+
+    if (head == NULL)
+    {
         ptr->next = ptr;
         ptr->prev = ptr;
-        
     }
-    else{
-          ptr->next = head;
-    ptr->prev = head->prev;
-    head->prev->next = ptr;
-    head->prev = ptr;
+    else
+    {
+        ptr->next = head;
+        ptr->prev = head->prev;
+        head->prev->next = ptr;
+        head->prev = ptr;
     }
-    
-  
+
     ptr->data = data;
     return ptr;
 }
@@ -80,44 +87,49 @@ struct Node *Insert_At_First_End(struct Node *head, int data)
 // Function for Inserting at index
 struct Node *Insert_At_Index(struct Node *head, int data, int index)
 {
-    if(head == NULL){
+    if (head == NULL)
+    {
         printf("NO element exists\n");
         return head;
     }
-    if(index > listlen(head)){
+    if (index > listlen(head))
+    {
         printf("Entered index is invalid\n");
         return head;
     }
-    else{
-        struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
-    struct Node *p = head;
-    int i = 0;
-    while (i != index - 1)
+    else
     {
-        p = p->next;
-        i++;
+        struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
+        struct Node *p = head;
+        int i = 0;
+        while (i != index - 1)
+        {
+            p = p->next;
+            i++;
+        }
+        ptr->data = data;
+        ptr->next = p->next;
+        p->next->prev = ptr;
+        ptr->prev = p;
+        p->next = ptr;
     }
-    ptr->data = data;
-    ptr->next = p->next;
-    p->next->prev = ptr;
-    ptr->prev = p;
-    p->next = ptr;
-    }
-    
+
     return head;
 }
-
 
 //   DELITION IN LINKED LIST
 
 // Function to delete the First Node, In the doubly circular Linked list
 struct Node *Delete_At_First_End(struct Node *head)
 {
-    if(head == NULL){
+    if (head == NULL)
+    {
         printf("No ele in list\n");
         return head;
     }
-    if(head->next == head){
+    if (head->next == head)
+    {
+        free(head);
         return NULL;
     }
     struct Node *ptr = head;
@@ -135,8 +147,9 @@ struct Node *Delete_node_between(struct Node *head, int index)
 {
     struct Node *p = head;
     struct Node *q = head;
-    
-    if(index> listlen(head)){
+
+    if (index > listlen(head))
+    {
         printf("Entered index is invalid\n");
         return head;
     }
@@ -162,8 +175,6 @@ struct Node *Delete_node_between(struct Node *head, int index)
     p = NULL;
     return head;
 }
-
-
 
 void main(int argc, char const *argv[])
 {
@@ -194,66 +205,61 @@ void main(int argc, char const *argv[])
     // fourth->data = 12;
     // fourth->prev = third;
     // fourth->next = head;
-    
-    while(1){
+
+    while (1)
+    {
         int menu1 = 0;
         printf("Enter you Choice :\n");
         printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
-        scanf("%d",&menu1);
+        scanf("%d", &menu1);
         int menu2 = 0;
-        switch(menu1) {
+        switch (menu1)
+        {
         case 1:;
-            
+
             printf("1: At_Start/End 2:At_Index \n");
-            scanf("%d",&menu2);
-            int data=0;
-            int index =0;
-            switch(menu2) {
+            scanf("%d", &menu2);
+            int data = 0;
+            int index = 0;
+            switch (menu2)
+            {
             case 1:;
-                
+
                 printf("Enter data :");
-                scanf("%d",&data);
-                head = Insert_At_First_End(head,  data);
+                scanf("%d", &data);
+                head = Insert_At_First_End(head, data);
                 break;
             default:;
                 printf("Enter data :");
-                scanf("%d",&data);
+                scanf("%d", &data);
                 printf("\nEnter =index :");
-                scanf("%d",&index);
-                head = Insert_At_Index(head,  data,index);
-               
+                scanf("%d", &index);
+                head = Insert_At_Index(head, data, index);
             }
             break;
         case 2:;
-           
+
             printf("1: From_Start/End 2:From_Index \n");
-            scanf("%d",&menu2);
-            switch(menu2) {
+            scanf("%d", &menu2);
+            switch (menu2)
+            {
             case 1:;
-                head = Delete_At_First_End(head );
+                head = Delete_At_First_End(head);
                 break;
             default:;
                 int index = 0;
                 printf("\nEnter =index :");
-                scanf("%d",&index);
-                head =Delete_node_between(head,index);
+                scanf("%d", &index);
+                head = Delete_node_between(head, index);
             }
             break;
         case 3:;
             traversing(head);
             break;
         default:
-           goto L;
+            goto L;
         }
-       
-       
     }
-    L:
-     printf("Code Ended Successfully");
-    
-    
-    
-    
-
- 
+L:
+    printf("Code Ended Successfully");
 }
