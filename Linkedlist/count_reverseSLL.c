@@ -5,7 +5,6 @@ struct Node
 {
     int data;
     struct Node *next;
-    struct Node *prev;
 };
 
 void traversing(struct Node *head)
@@ -13,7 +12,8 @@ void traversing(struct Node *head)
     struct Node *p = head;
     if (head == NULL)
     {
-        goto L;
+        printf("Traversing completed\n");
+        return;
     }
 
     while (p->next != NULL)
@@ -24,33 +24,52 @@ void traversing(struct Node *head)
     printf("Element : %d \n", p->data); // data of last node
 
     printf("\n");
-    while (p != NULL) // for re-traversing
-    {
-        printf("Element : %d \n", p->data);
-        p = p->prev;
-    }
-L:
     printf("Traversing completed\n");
+    return;
 }
 
-int listlen(struct Node *head)
+// Count
+
+int count(struct Node *head)
 {
     if (head == NULL)
     {
         return 0;
     }
-
-    int result = 1;
+    int result = 0;
     do
     {
         result++;
         head = head->next;
 
-    } while (head->next != NULL);
+    } while (head != NULL);
     return result;
 }
 
-//   INSERTION IN doubly LINKED LIST
+struct Node *reverse(struct Node *head)
+{
+    if (head == NULL)
+    {
+        printf("No element Present\n");
+        return head;
+    }
+    // we need three pointers
+    struct Node *temp1 = head;
+    struct Node *temp2 = NULL;
+    struct Node *temp3 = NULL;
+
+    while (temp1 != NULL)
+    {
+        temp3 = temp1->next;
+        temp1->next = temp2;
+        temp2 = temp1;
+        temp1 = temp3;
+    }
+
+    return temp2;
+}
+
+//   INSERTION IN  LINKED LIST
 
 // Function for Inserting in the begining
 struct Node *Insert_At_First(struct Node *head, int data)
@@ -59,41 +78,37 @@ struct Node *Insert_At_First(struct Node *head, int data)
     if (head == NULL)
     {
         ptr->next = NULL;
-        ptr->prev = NULL;
     }
     else
     {
         ptr->next = head;
-        ptr->prev = NULL;
-        head->prev = ptr;
     }
 
     ptr->data = data;
     return ptr;
 }
 
-// Function for Inserting at index
-struct Node *Insert_At_Index(struct Node *head, int data, int index)
+// Function for Inserting after value
+
+struct Node *Insert_After_value(struct Node *head, int data, int value)
 {
     struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
     struct Node *p = head;
-    // printf("listlen %d\n",listlen(head));
-    if (index > listlen(head))
+
+    while (p->data != value && p->next != NULL)
     {
-        printf("invalid index\n");
+        p = p->next;
+    }
+    if (p->next == NULL)
+    {
+        ptr->data = data;
+        ptr->next = NULL;
+        p->next = ptr;
         return head;
     }
 
-    int i = 0;
-    while (i != index - 1)
-    {
-        p = p->next;
-        i++;
-    }
     ptr->data = data;
     ptr->next = p->next;
-    p->next->prev = ptr;
-    ptr->prev = p;
     p->next = ptr;
     return head;
 }
@@ -106,7 +121,6 @@ struct Node *Insert_At_End(struct Node *head, int data)
     if (head == NULL)
     {
         ptr->next = NULL;
-        ptr->prev = NULL;
         return ptr;
     }
     struct Node *p = head;
@@ -116,13 +130,12 @@ struct Node *Insert_At_End(struct Node *head, int data)
     }
     p->next = ptr;
     ptr->next = NULL;
-    ptr->prev = p;
     return head;
 }
 
 //   DELITION IN LINKED LIST
 
-// Function to delete the First Node, In the doubly Linked list
+// Function to delete the First Node, In the Linked list
 struct Node *Delete_At_First(struct Node *head)
 {
     if (head == NULL)
@@ -137,43 +150,56 @@ struct Node *Delete_At_First(struct Node *head)
     }
     struct Node *ptr = head;
     head = head->next;
-    head->prev = NULL;
     free(ptr); // free the space of first node
     ptr = NULL;
     return head;
 }
 
-// Function to delete any Node with given index, In the  doubly Linked list
-struct Node *Delete_node_between(struct Node *head, int index)
+// Function to delete any Node with given value, In the  Linked list
+struct Node *Delete_after_value(struct Node *head, int value)
 {
     struct Node *p = head;
     struct Node *q = head;
-
-    if (index > listlen(head))
+    if (head == NULL)
     {
-        printf("invalid index\n");
+        printf("No ele in list\n");
         return head;
     }
 
-    int i = 0, j = 0;
-    while (i < index)
+    if (head->data == value && head->next == NULL)
     {
+        free(head);
+        head = NULL;
+        return NULL;
+    }
+
+    int valueFound = 0;
+    do
+    {
+        if (p->data == value)
+        {
+            valueFound = 1;
+            break;
+        }
         p = p->next;
+    } while (p->next != head);
 
-        i++;
-    }
-
-    while (j < index - 1)
+    if (valueFound)
     {
-
-        q = q->next;
-        j++;
+        while (q->next != p)
+        {
+            q = q->next;
+        }
+        q->next = p->next;
+        free(p);
+        p = NULL;
     }
 
-    q->next = p->next;
-    p->next->prev = q;
-    free(p);
-    p = NULL;
+    else
+    {
+        printf("Value Not Found\n");
+    }
+
     return head;
 }
 
@@ -187,7 +213,7 @@ struct Node *Delete_last_node(struct Node *head)
         printf("No ele in list\n");
         return head;
     }
-    if (head->next == NULL)
+    if (head->next == head)
     {
         free(head);
         return NULL;
@@ -211,47 +237,26 @@ struct Node *Delete_last_node(struct Node *head)
 void main(int argc, char const *argv[])
 {
     struct Node *head;
-    // struct Node *second;
-    // struct Node *third;
-    // struct Node *fourth;
 
     head = (struct Node *)malloc(sizeof(struct Node));
-    // second = (struct Node *)malloc(sizeof(struct Node));
-    // third = (struct Node *)malloc(sizeof(struct Node));
-    // fourth = (struct Node *)malloc(sizeof(struct Node));
 
     head = NULL;
-    // head->data = 7;
-    // head->prev = NULL;
-    // head->next = second;
-
-    // second->data = 4;
-    // second->prev = head;
-    // second->next = third;
-
-    // third->data = 46;
-    // third->prev = second;
-    // third->next = fourth;
-
-    // fourth->data = 12;
-    // fourth->prev = third;
-    // fourth->next = NULL;
 
     while (1)
     {
         int menu1 = 0;
         printf("Enter you Choice :\n");
-        printf("Enter 1:insertion, 2:Deletion, 3:traverse, 4:exit\n");
+        printf("Enter 1:insertion, 2:Deletion, 3:traverse,4:Count,5:reverse, 6:exit\n");
         scanf("%d", &menu1);
         int menu2 = 0;
         switch (menu1)
         {
         case 1:;
 
-            printf("1: At_Start 2:At_Index 3: At_end\n");
+            printf("1: At_Start 2:After_value 3: At_end\n");
             scanf("%d", &menu2);
             int data = 0;
-            int index = 0;
+            int value = 0;
             switch (menu2)
             {
             case 1:;
@@ -263,9 +268,9 @@ void main(int argc, char const *argv[])
             case 2:;
                 printf("Enter data :");
                 scanf("%d", &data);
-                printf("\nEnter =index :");
-                scanf("%d", &index);
-                head = Insert_At_Index(head, data, index);
+                printf("\nEnter value:");
+                scanf("%d", &value);
+                head = Insert_After_value(head, data, value);
                 break;
             default:;
 
@@ -276,7 +281,7 @@ void main(int argc, char const *argv[])
             break;
         case 2:;
 
-            printf("1: From_Start 2:From_Index 3: From_end\n");
+            printf("1: From_Start 2:value 3: From_end\n");
             scanf("%d", &menu2);
             switch (menu2)
             {
@@ -284,10 +289,10 @@ void main(int argc, char const *argv[])
                 head = Delete_At_First(head);
                 break;
             case 2:;
-                int index = 0;
-                printf("\nEnter =index :");
-                scanf("%d", &index);
-                head = Delete_node_between(head, index);
+                int value = 0;
+                printf("\nEnter value :");
+                scanf("%d", &value);
+                head = Delete_after_value(head, value);
                 break;
             default:
                 head = Delete_last_node(head);
@@ -296,10 +301,19 @@ void main(int argc, char const *argv[])
         case 3:;
             traversing(head);
             break;
+
+        case 4:;
+            int result = count(head);
+            printf("Number of nodes : %d\n", result);
+            break;
+        case 5:;
+            head = reverse(head);
+            printf("LinkedList is reversed\n");
+            traversing(head);
+            break;
         default:
-            goto L;
+            printf("Code Ended Successfully");
+            return;
         }
     }
-L:
-    printf("Code Ended Successfully");
 }
