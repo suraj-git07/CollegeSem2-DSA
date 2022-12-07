@@ -6,7 +6,7 @@ struct Stack
 {
     int size; // complete size
     int top;  // index of top ele
-    int *arr;
+    char *arr;
 };
 
 int isFull(struct Stack *head)
@@ -77,10 +77,10 @@ int checkPrecedence(char ch)
 
 char *infix_to_postfix(char *initial, int _size)
 {
-    struct Stack *useStack = (struct stack *)malloc(sizeof(struct Stack));
+    struct Stack *useStack = (struct Stack *)malloc(sizeof(struct Stack));
     useStack->size = _size;
     useStack->top = -1;
-    useStack->arr = (char *)malloc(useStack->size * sizeof(char));
+    useStack->arr = (char *)malloc((useStack->size) * sizeof(char));
     char *ans = (char *)malloc((strlen(initial) + 1) * sizeof(char));
     int i = 0;
     int j = 0;
@@ -119,7 +119,7 @@ void main()
 {
 
     char *infixString = "a+b*c*dE*FG";
-    printf("postfix of expression is %s", infix_to_Postfix(infixString, 11));
+    printf("postfix of expression is %s", infix_to_postfix(infixString, 11));
 
     return;
 }
