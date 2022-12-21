@@ -65,80 +65,70 @@ int isOperator(char ch)
         return 0;
 }
 
-int checkPrecedence(char ch)
-{
-    if (ch == '*' || ch == '/')
-        return 2;
-    else if (ch == '+' || ch == '-')
-        return 1;
-    else
-        return 0;
-}
-
-char *infix_to_postfix(char *initial, int _size)
+int postfixEval(char *expression, int _size)
 {
     struct Stack *useStack = (struct Stack *)malloc(sizeof(struct Stack));
     useStack->size = _size;
     useStack->top = -1;
     useStack->arr = (char *)malloc((useStack->size) * sizeof(char));
-    char *ans = (char *)malloc((useStack->size + 1) * sizeof(char));
+    int ans;
     int i = 0;
-    int j = 0;
-    while (initial[i] != '\0') // till not null
+    while (expression[i] != '\0') // till not null
     {
-        if (!isOperator(initial[i]))
+        if (!isOperator(expression[i]))
         {
-            ans[j] = initial[i];
-            j++;
-            i++;
+            printf("operator nahi hai\n");
+            printf("%d ko push kiya\n", expression[i] - '0');
+            push(useStack, expression[i] - '0');
         }
         else
         {
-            if (checkPrecedence(initial[i]) > checkPrecedence(useStack->arr[useStack->top]))
+            printf("operator hai \n");
+            int val1 = pop(useStack);
+            printf("%d value ko pop kiya\n", val1);
+            int val2 = pop(useStack);
+            printf("%d value ko pop kiya\n", val2);
+            if (expression[i] == '+')
             {
-                push(useStack, initial[i]);
-                i++;
+                printf("%d ko push kiya\n", val2 + val1);
+                push(useStack, (val2 + val1));
+            }
+            else if (expression[i] == '-')
+            {
+                printf("%d ko push kiya\n", val2 - val1);
+                push(useStack, val2 - val1);
+            }
+            else if (expression[i] == '*')
+            {
+                printf("%d ko push kiya\n", val2 * val1);
+                push(useStack, val2 * val1);
             }
             else
             {
-                ans[j] = pop(useStack);
-                j++;
+                printf("%d ko push kiya\n", val2 / val1);
+                push(useStack, val2 / val1);
             }
         }
+        i++;
     }
-    while (!isEmpty(useStack))
-    {
-        ans[j] = pop(useStack);
-        j++;
-    }
-    ans[j] = '\0'; // end null character for valid char array
-    return ans;
+
+    return ans = pop(useStack);
 }
 
 void main()
 {
-    // char *infixString = "a+b*c*dE*FG";
     int expsize = 0;
     printf("Enter the size of expression:\n ");
     scanf("%d", &expsize);
-    char infixString[expsize + 1];
+    char postfixString[expsize + 1];
     printf("Enter the expression\n");
-    scanf("%s", &infixString);
-    // for (int i = 0; i < expsize; i++)
-    // {
-    //     printf("Enter the %d character: \n",i+1);
-    //     scanf("%c\n",&infixString[i]);
-
-    // }
-    // infixString[expsize-1] = '/0';
-
-    // for (int i = 0; i < expsize; i++)
-    // {
-    //     printf("%c ",infixString[i]);
-    // }
-
-    // printf("postfix of expression is %s", infix_to_postfix(infixString, 11));
-    printf("postfix of expression is %s", infix_to_postfix(infixString, expsize));
+    scanf("%s", &postfixString);
+    printf(" Evalution of this postfix expression is %d", postfixEval(postfixString, expsize));
 
     return;
 }
+
+
+// 562+*84/-
+// 456+*
+// 12345*+*+
