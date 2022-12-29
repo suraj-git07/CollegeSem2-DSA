@@ -21,7 +21,7 @@ int isEmpty(struct Queue *ptr)
 
 int isFull(struct Queue *ptr)
 {
-    if ((ptr->backIdx + 1) / ptr->size == ptr->frontIdx)
+    if ((ptr->backIdx + 1) % ptr->size == ptr->frontIdx)
     {
         return 1;
     }
@@ -39,7 +39,7 @@ void enQueue(struct Queue *ptr, int value)
 
     else
     {
-        ptr->backIdx = (ptr->backIdx + 1) / ptr->size;
+        ptr->backIdx = (ptr->backIdx + 1) % ptr->size;
         ptr->arr[ptr->backIdx] = value;
         printf("Element %d is added\n", value);
     }
@@ -56,7 +56,7 @@ int deQueue(struct Queue *ptr)
     else
     {
         int a;
-        ptr->frontIdx = (ptr->frontIdx + 1) / ptr->size;
+        ptr->frontIdx = (ptr->frontIdx + 1) % ptr->size;
         a = ptr->arr[ptr->frontIdx];
         printf("element %d is removed\n ", a);
         return a;
@@ -73,10 +73,10 @@ void traversing(struct Queue *ptr)
     }
 
     int i = ptr->frontIdx + 1;
-    while (i != ptr->frontIdx)
+    while (i != ((ptr->backIdx + 1) % ptr->size))
     {
         printf("Element: %d\n", ptr->arr[i]);
-        i = (i + 1) / ptr->size;
+        i = (i + 1) % ptr->size;
     }
 }
 
@@ -92,8 +92,8 @@ void main()
 
     myQueue = (struct Queue *)malloc(sizeof(struct Queue));
     myQueue->size = size;
-    myQueue->backIdx = -1;
-    myQueue->frontIdx = -1;
+    myQueue->backIdx = 0;
+    myQueue->frontIdx = 0;
     myQueue->arr = malloc(sizeof(int[size]));
 
     while (1)
