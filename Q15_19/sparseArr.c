@@ -73,6 +73,11 @@ int main()
 
     // create a sparse  matrix from the original matrix
     int non_zero = findNZero(array, rows, columns);
+    if (non_zero<((rows*columns)/4))
+    {
+        printf("\nIt is a sparse matrix\n");
+    }
+    
     int sparseArr[non_zero + 1][3];
     sparseArr[0][0] = rows;
     sparseArr[0][1] = columns;
